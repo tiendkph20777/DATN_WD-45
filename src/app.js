@@ -4,6 +4,9 @@ import cors from "cors";
 import productRouter from "./routes/product";
 import categoryRouter from "./routes/category";
 import productDetailRouter from "./routes/product_detail";
+import userRouter from "./routes/user";
+import authRouter from "./routes/auth";
+import roleRouter from "./routes/role";
 
 
 const app = express();
@@ -17,6 +20,9 @@ app.get("/api", (req, res) => {
 });
 app.use("/api", productRouter)
 app.use("/api", productDetailRouter)
+app.use("/api", userRouter)
+app.use("/api", authRouter)
+app.use("/api", roleRouter)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
