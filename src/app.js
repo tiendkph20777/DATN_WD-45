@@ -7,6 +7,8 @@ import productDetailRouter from "./routes/product_detail";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 import roleRouter from "./routes/role";
+import commentRouter from './routes/comment';
+import cartRouter from './routes/cart';
 
 
 const app = express();
@@ -23,6 +25,8 @@ app.use("/api", productDetailRouter)
 app.use("/api", userRouter)
 app.use("/api", authRouter)
 app.use("/api", roleRouter)
+app.use("/api", commentRouter)
+app.use("/api", cartRouter)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
