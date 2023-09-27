@@ -9,6 +9,7 @@ import authRouter from "./routes/auth";
 import roleRouter from "./routes/role";
 import commentRouter from './routes/comment';
 import cartRouter from './routes/cart';
+import paymentRouter from "./routes/payment";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
 app.use("/api", cartRouter)
+app.use("/api",paymentRouter)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
