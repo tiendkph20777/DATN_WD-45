@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import productRouter from "./routes/product";
-import categoryRouter from "./routes/category";
-import productDetailRouter from "./routes/product_detail";
+import brandRouter from "./routes/brand";
+import quantityRouter from "./routes/quantity";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 import roleRouter from "./routes/role";
@@ -17,18 +17,19 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api", categoryRouter)
+app.use("/api", brandRouter)
 app.get("/api", (req, res) => {
     res.send("Lấy dữ liệu thành công");
 });
 app.use("/api", productRouter)
-app.use("/api", productDetailRouter)
+app.use("/api", quantityRouter)
 app.use("/api", userRouter)
+// app.use("/api", c)
 app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
 app.use("/api", cartRouter)
-app.use("/api",paymentRouter)
+app.use("/api", paymentRouter)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/DATN", {

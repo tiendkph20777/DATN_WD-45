@@ -1,7 +1,7 @@
 
 import { productSchema } from '../schemas/product';
 import Product from '../model/product'
-import Category from '../model/category'
+import Brand from '../model/brand'
 export const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
@@ -44,11 +44,11 @@ export const createProduct = async (req, res) => {
                 message: error.details.map((err) => err.message)
             });
         }
-        const { name, cate_id } = req.body;
-        const existingCategory = await Category.findOne({ _id: cate_id });
-        if (!existingCategory) {
+        const { name, brand_id } = req.body;
+        const existingBrand = await Brand.findOne({ _id: brand_id });
+        if (!existingBrand) {
             return res.status(400).json({
-                message: "Danh mục không tồn tại"
+                message: "thương hiệu không tồn tại"
             });
         }
         const existingProduct = await Product.findOne({ name });
@@ -71,11 +71,11 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, cate_id } = req.body;
-        const existingCategory = await Category.findOne({ _id: cate_id });
-        if (!existingCategory) {
+        const { name, brand_id } = req.body;
+        const existingBrand = await Brand.findOne({ _id: brand_id });
+        if (!existingBrand) {
             return res.status(400).json({
-                message: "Danh mục không tồn tại"
+                message: "thương hiệu không tồn tại"
             });
         }
         const existingProduct = await Product.findOne({
