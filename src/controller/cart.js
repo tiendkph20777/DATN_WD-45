@@ -4,7 +4,7 @@
 // export const addToCart = async (req, res) => {
 //   /*
 //     user_id:
-//     isGuest:
+//     isGuest: false
 //     products: [
 //     ],
 //     total_money: {

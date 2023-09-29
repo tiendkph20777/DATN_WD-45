@@ -3,6 +3,7 @@
 // export const addToPayment = async (req, res) => {
 //   const { cart_id, amount, user_id, status, price, quantity, date, bill } = req.body;
 
+
 //   try {
 //     const paymentItem = new payment({
 //       cart_id,
@@ -20,6 +21,38 @@
 //     res.status(400).json({ message: error.message });
 //   }
 
+/*
+    Voucher{
+        id
+        code : N30
+        value : 30
+        content: giảm giá
+        date : '2015-
+        status : 'true', false
+    }
+    Order{
+        uses_id
+        cart_id
+        voucher NT
+        total
+    }
+    const { voucher (NT) } = req.body
+    const valueVoucher = await Voucher.findOne({ voucher: code})
+    if(valueVoucher){
+        total*(Voucher.value/100) = PaymentAmount
+    }
+
+     const ordernew = await Order.create({
+            user_id,
+            cart_id,
+            total,
+            PaymentAmount,
+            address,
+            status
+        })
+
+
+*/
 // }
 
 // export const getPaymentDetails = async (req, res) => {

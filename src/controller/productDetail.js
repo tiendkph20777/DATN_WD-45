@@ -55,6 +55,8 @@ export const getProductDetailByIdProduct = async (req, res) => {
     }
 }
 
+
+
 export const createProductDetail = async (req, res) => {
     try {
         const { error } = productDetailSchema.validate(req.body, { abortEarly: false });
