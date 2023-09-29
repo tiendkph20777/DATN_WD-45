@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    sku: { type: String, default: "" },
     image: {
         type: String,
         required: true
@@ -27,11 +28,6 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     status: String,
-    detail_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Quantity",
-        required: true
-    },
     description: String,
     rate: Number
 },

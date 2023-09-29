@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const quantitySchema = new mongoose.Schema({
+const productDetailSchema = new mongoose.Schema({
     product_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
     },
     size: Number,
-    count: Number,
+    quantity: Number,
 },
     {
         timestamps: true,
@@ -14,4 +14,4 @@ const quantitySchema = new mongoose.Schema({
     },
 );
 
-export default mongoose.model("Quantity", quantitySchema);
+export default mongoose.model("ProductDetail", productDetailSchema);

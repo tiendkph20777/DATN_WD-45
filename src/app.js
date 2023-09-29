@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 import cors from "cors";
 import productRouter from "./routes/product";
 import brandRouter from "./routes/brand";
-import quantityRouter from "./routes/quantity";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 import roleRouter from "./routes/role";
 import commentRouter from './routes/comment';
-import cartRouter from './routes/cart';
-import paymentRouter from "./routes/payment";
+// import cartRouter from './routes/cart';
+// import paymentRouter from "./routes/order";
+import productDetailRouter from "./routes/productDetail";
 
 
 const app = express();
@@ -22,14 +22,14 @@ app.get("/api", (req, res) => {
     res.send("Lấy dữ liệu thành công");
 });
 app.use("/api", productRouter)
-app.use("/api", quantityRouter)
+app.use("/api", productDetailRouter)
 app.use("/api", userRouter)
 // app.use("/api", c)
 app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
-app.use("/api", cartRouter)
-app.use("/api", paymentRouter)
+// app.use("/api", cartRouter)
+// app.use("/api", paymentRouter)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/DATN", {

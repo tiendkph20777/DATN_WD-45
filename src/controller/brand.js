@@ -3,8 +3,8 @@ import { brandSchema } from '../schemas/brand';
 import Brand from '../model/brand';
 export const getAllBrands = async (req, res) => {
     try {
-        const brands = await Brand.find();
-        if (!brands) {
+        const brand = await Brand.find();
+        if (!brand) {
             return res.status(404).json({
                 message: "thương hiệu trống"
             });
@@ -36,17 +36,17 @@ export const getBrand = async (req, res) => {
 
 export const createBrand = async (req, res) => {
     try {
+        const { error } = brandSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({
+                message: error.details.map((err) => err.message)
+            });
+        }
         const { name } = req.body;
         const existingBrand = await Brand.findOne({ name });
         if (existingBrand) {
             return res.status(400).json({
                 message: "thương hiệu đã được tạo trước đó"
-            });
-        }
-        const { error } = brandSchema.validate(req.body, { abortEarly: false });
-        if (error) {
-            return res.status(400).json({
-                message: error.details.map((err) => err.message)
             });
         }
         const brand = await Brand.create(req.body);

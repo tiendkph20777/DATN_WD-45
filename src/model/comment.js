@@ -8,11 +8,10 @@ const commentSchema = new mongoose.Schema({
     },
     rate: {
         type: Number,
-        required: true,
     },
     id_user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        ref: "User",
         required: true,
     },
     content: {

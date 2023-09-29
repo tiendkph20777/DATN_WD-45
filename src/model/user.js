@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    userName: {
       type: String,
       require: true,
+    },
+    fullName: {
+      type: String,
+      require: true
+    },
+    gender: {
+      type: String,
+      require: true
     },
     email: {
       type: String,
@@ -13,26 +21,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    tel: {
-      type: Number,
-    },
     role_id: {
-      // type: mongoose.Schema.Types.ObjectId,
-      type: String,
-      ref: "Role",
-    },
-    purchase_history_id: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Purchase_history",
-      },
-    ],
-    cart_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Cart",
-    },
-    address: {
-      type: String,
+      ref: "Role"
     },
   },
   {

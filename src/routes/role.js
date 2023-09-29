@@ -8,7 +8,4 @@ roleRouter.get("/role", getAllRole)
 roleRouter.get("/role/:id", getRoleById)
 roleRouter.put("/role/:id/update", updateRole)
 roleRouter.delete("/role/:id", removeRole)
-
-
-
 export default roleRouter

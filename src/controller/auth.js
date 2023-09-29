@@ -4,49 +4,34 @@ import jwt from "jsonwebtoken";
 import { signinSchema, userSchema } from "../schemas/user";
 import Role from "../model/role";
 
-export const signup = async (req, res) => {
+export const signUp = async (req, res) => {
     try {
-        const { name, email, password, role_id, tel, address } = req.body
         const { error } = userSchema.validate(req.body, { abortEarly: false })
-
         if (error) {
             const errors = error.details.map((err) => err.message);
             return res.status(404).json({
                 message: errors
             })
         }
-
-        // const existingRole = await Role.findOne({ _id: role_id });
-        // if (!existingRole) {
-        //     return res.status(400).json({
-        //         message: "Danh mục không tồn tại"
-        //     });
-        // }
-
+        const { userName, fullName, gender, email, password } = req.body
         const userExist = await User.findOne({ email });
         if (userExist) {
-            return res.status(200).json({
+            return res.status(404).json({
                 message: "Email đã tồn tại"
             });
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        const memberRole = await Role.findOne({ name: "member" });
-
+        const memberRole = await Role.findOne({ name: "Member" });
         const user = await User.create({
-            name,
+            userName,
+            fullName,
+            gender,
             email,
             password: hashedPassword,
             role_id: memberRole.id,
-            tel,
-            address,
         })
-
-
         //tạo token từ server 
         const token = jwt.sign({ _id: user._id }, '123456', { expiresIn: 60 * 60 })
-
         return res.status(201).json({
             message: "Đăng ký thành công",
             accessToKen: token,
@@ -60,19 +45,16 @@ export const signup = async (req, res) => {
     }
 }
 
-export const signin = async (req, res) => {
+export const signIn = async (req, res) => {
     try {
-        const { email, password } = req.body;
         const { error } = signinSchema.validate(req.body, { abortEarly: false })
-
+        const { email, password } = req.body;
         if (error) {
             const errors = error.details.map((err) => err.message);
             return res.status(404).json({
                 message: errors
             })
         }
-
-
         const user = await User.findOne({ email })
         if (!user) {
             return res.status(404).json({
@@ -85,7 +67,6 @@ export const signin = async (req, res) => {
                 message: "sai mật khẩu"
             })
         }
-
         // const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 })
         const token = jwt.sign({ _id: user._id }, '123456', { expiresIn: 60 * 60 })
 
