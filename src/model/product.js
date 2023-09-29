@@ -30,6 +30,7 @@ const productSchema = new mongoose.Schema({
     detail_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Quantity",
+        required: true
     },
     description: String,
     rate: Number

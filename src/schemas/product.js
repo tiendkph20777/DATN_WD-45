@@ -12,7 +12,7 @@ export const productSchema = joi.object({
     brand_id: joi.string().required(),
     color: joi.string().required(),
     status: joi.string(),
-    detail_id: joi.string(),
+    detail_id: joi.string().required(),
     description: joi.string(),
     rate: joi.number(),
 });

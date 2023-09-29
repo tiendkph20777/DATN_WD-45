@@ -24,7 +24,7 @@ export const addToPayment = async (req, res) => {
 
 export const getPaymentDetails = async (req, res) => {
   try {
-    const paymentItems = await Cart.find().populate('cart_id').populate('amount').populate('user_id').populate('status').populate('price').populate('date').populate('bill');
+    const paymentItems = await payment.find().populate('cart_id').populate('amount').populate('user_id').populate('status').populate('price').populate('date').populate('bill');
     res.status(200).json(paymentItems);
   } catch (error) {
     res.status(500).json({ message: error.message });
