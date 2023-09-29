@@ -20,7 +20,7 @@
 //     status: {
 //         type: String,
 //         default: "xác nhận",
-//         enum: ["xác nhận", "chuẩn bị hàng", "đợi vận chuyển", "đang vận chuyển", "thành công"]
+//         enum: ["xác nhận", "chuẩn bị hàng", "hủy đơn hàng" "đợi vận chuyển", "đang vận chuyển", "thành công"]
 //     },
 //     content: { type: Text }
 // },

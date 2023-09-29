@@ -22,6 +22,8 @@
 //   }
 
 /*
+
+ORDER
     Voucher{
         id
         code : N30
@@ -33,9 +35,26 @@
     Order{
         uses_id
         cart_id
-        voucher NT
+        voucher (NT)
         total
     }
+
+
+  id varchar [primary key]
+  id_cart varchar [ref: > cart.id]
+  user_id varchar [ref: > user.id]
+  dateCreate timestamp
+  total decimal
+  Address varchar
+  Status varchar
+  Note varchar
+  FullName varchar
+  Email varchar
+  PhoneNumber varchar
+  VoucherCode varchar
+  PaymentAmount decimal
+
+
     const { voucher (NT) } = req.body
     const valueVoucher = await Voucher.findOne({ voucher: code})
     if(valueVoucher){
@@ -47,10 +66,19 @@
             cart_id,
             total,
             PaymentAmount,
+           // status => voucher => false -> true
             address,
             status
         })
 
+
+CANCELED_ORDER
+const canceled = Order.finOne({ status: 'canceled' })
+const canceledOrder = Canceled.create(canceled)
+
+HISTORY_ORDER
+const history = Order.finOne({ status: 'access' })
+const historyOrder = History.create(canceled)
 
 */
 // }
