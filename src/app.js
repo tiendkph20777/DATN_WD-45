@@ -10,6 +10,7 @@ import commentRouter from './routes/comment';
 // import cartRouter from './routes/cart';
 // import paymentRouter from "./routes/order";
 import productDetailRouter from "./routes/productDetail";
+import voucherRouter from "./routes/voucher";
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api", userRouter)
 app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
+app.use("/api", voucherRouter)
 // app.use("/api", cartRouter)
 // app.use("/api", paymentRouter)
 
