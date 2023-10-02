@@ -1,7 +1,8 @@
+import { string } from "joi";
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    userName: {
       type: String,
       require: true,
     },
@@ -21,15 +22,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       ref: "Role",
     },
-    purchase_history_id: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Purchase_history",
-      },
-    ],
+    gender:{
+      type:String,
+      required:true,
+    },
+    fullName:{
+      type:String,
+      required:true,
+    },
     cart_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Cart",
+      // 
+      type:String,
     },
     address: {
       type: String,
