@@ -9,8 +9,9 @@ import roleRouter from "./routes/role";
 import commentRouter from './routes/comment';
 // import cartRouter from './routes/cart';
 // import paymentRouter from "./routes/order";
-import productDetailRouter from "./routes/productDetail";
 import voucherRouter from "./routes/voucher";
+import cartRouter from "./routes/cart";
+import productDetailRouter from "./routes/productDetail";
 
 
 const app = express();
@@ -30,7 +31,7 @@ app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
 app.use("/api", voucherRouter)
-// app.use("/api", cartRouter)
+app.use("/api", cartRouter)
 // app.use("/api", paymentRouter)
 
 

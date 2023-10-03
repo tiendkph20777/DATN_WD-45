@@ -5,8 +5,18 @@ const productDetailSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
     },
-    size: Number,
-    quantity: Number,
+    size: {
+        type: Number,
+        require: true,
+    },
+    quantity: {
+        type: Number,
+        require: true,
+    },
+    color: {
+        type: String,
+        required: true
+    },
 },
     {
         timestamps: true,

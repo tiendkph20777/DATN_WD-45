@@ -113,15 +113,17 @@ export const updateProduct = async (req, res) => {
 
 export const removeProduct = async (req, res) => {
     try {
-        const product = await Product.findByIdAndDelete(req.params.id);
+        const { product_id } = req.params
+        const product = await Product.findByIdAndDelete(product_id);
         if (!product) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm để xóa"
             });
         }
+        // Nếu danh mục bị xóa thì tất cả sản phẩm sẽ trở về brand là trống
+        await ProductDetail.deleteMany({ product_id });
         return res.json({
             message: "Xóa sản phẩm thành công",
-            product,
         });
     } catch (error) {
         return res.status(400).json({

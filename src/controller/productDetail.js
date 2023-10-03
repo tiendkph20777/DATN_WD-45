@@ -1,9 +1,6 @@
 
 import { productDetailSchema } from '../schemas/productDetail';
-import Product from '../model/product'
-import Brand from '../model/brand'
 import ProductDetail from '../model/productDetail';
-import product from '../model/product';
 
 export const getAllProductDetail = async (req, res) => {
     try {
@@ -40,14 +37,14 @@ export const getAllProductDetailAllProduct = async (req, res) => {
 
 export const getProductDetailByIdProduct = async (req, res) => {
     try {
-        const { product_id, size } = req.params;
-        const productDetail = await ProductDetail.findOne({ product_id, size });
+        const { product_id, size, color } = req.params;
+        const productDetail = await ProductDetail.findOne({ product_id, size, color });
         if (!productDetail) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm"
             });
         }
-        return res.json({ quantity: productDetail.quantity });
+        return res.json({ quantity: productDetail });
     } catch (error) {
         return res.status(400).json({
             message: error.message
@@ -65,14 +62,14 @@ export const createProductDetail = async (req, res) => {
                 message: error.details.map((err) => err.message)
             });
         }
-        const { size, quantity, product_id } = req.body;
-        const existingProductDetail = await ProductDetail.findOne({ product_id, size, quantity });
+        const { size, color, quantity, product_id } = req.body;
+        const existingProductDetail = await ProductDetail.findOne({ product_id, color, size, quantity });
         if (existingProductDetail) {
             return res.status(400).json({
                 message: "Thông tin đã tồn tại"
             });
         }
-        const productDetail = await ProductDetail.create({ product_id, size, quantity });
+        const productDetail = await ProductDetail.create({ product_id, color, size, quantity });
         return res.status(201).json(productDetail);
     } catch (error) {
         return res.status(400).json({
@@ -83,9 +80,9 @@ export const createProductDetail = async (req, res) => {
 
 export const updateProductDetail = async (req, res) => {
     try {
-        const { product_id, size } = req.params;
+        const { product_id, size, color } = req.params;
         const { quantity } = req.body;
-        const existingProductDetail = await ProductDetail.findOne({ product_id, size });
+        const existingProductDetail = await ProductDetail.findOne({ product_id, size, color, quantity });
         if (!existingProductDetail) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm"
@@ -106,8 +103,8 @@ export const updateProductDetail = async (req, res) => {
 
 export const removeProductDetailbyID = async (req, res) => {
     try {
-        const { product_id, size } = req.params;
-        const productDetail = await ProductDetail.findOneAndDelete({ product_id, size });
+        const { product_id, size, color } = req.params;
+        const productDetail = await ProductDetail.findOneAndDelete({ product_id, size, color });
         if (!productDetail) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm để xóa"
@@ -116,25 +113,6 @@ export const removeProductDetailbyID = async (req, res) => {
         return res.json({
             message: "Xóa sản phẩm thành công",
             productDetail,
-        });
-    } catch (error) {
-        return res.status(400).json({
-            message: error.message
-        });
-    }
-}
-export const removeAllProductDetail = async (req, res) => {
-    try {
-        const { product_id } = req.params;
-        const result = await ProductDetail.deleteMany({ product_id });
-        if (!result) {
-            return res.status(404).json({
-                message: "Không tìm thấy sản phẩm để xóa"
-            });
-        }
-        return res.json({
-            message: "Xóa sản phẩm thành công",
-            result,
         });
     } catch (error) {
         return res.status(400).json({

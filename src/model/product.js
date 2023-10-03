@@ -23,10 +23,6 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Brand",
     },
-    color: {
-        type: String,
-        required: true
-    },
     status: String,
     description: String,
     rate: Number

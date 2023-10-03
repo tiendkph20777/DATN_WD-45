@@ -10,7 +10,6 @@ export const productSchema = joi.object({
     price: joi.number().required(),
     price_sale: joi.number(),
     brand_id: joi.string().required(),
-    color: joi.string().required(),
     status: joi.string(),
     description: joi.string(),
     rate: joi.number(),

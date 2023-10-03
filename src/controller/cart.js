@@ -1,48 +1,58 @@
-// import Cart from '../model/cart';
-// import productDetail from '../model/productDetail';
+import Cart from '../model/cart';
+import CartDetail from '../model/cartDetail';
+import ProductDetail from '../model/productDetail';
 
-// export const addToCart = async (req, res) => {
-//   /*
-//     user_id:
-//     isGuest: false
-//     products: [
-//     ],
-//     total_money: {
-//       type: Number,
-//       default: 0,
-//     }*/
-//   const { user_id, product_id, sizeProduct, quantity } = req.body;
-//   try {
-//     const existingQuantity = await productDetail.findOne({ id_product, sizeProduct });
-//     if (!existingQuantity) {
-//       res.status(400).json({ message: "Không tìm thấy sản phẩm trong kho" });
-//       return;
-//     }
-//     if (quantity > existingQuantity.count) {
-//       res.status(400).json({ message: "Số lượng quá giới hạn" });
-//       return;
-//     }
-//     const cartItem = new Cart({
-//       id_user,
-//       id_product,
-//       sizeProduct,
-//       quantity,
-//     });
+export const addToCart = async (req, res) => {
+  const productDetailID = req.params.productDetailID;
+  console.log(productDetailID);
+  const user_id = req.body.user_id;
+  const quantity = req.body.quantity;
+  try {
+    const productDetailFind = await ProductDetail.findById(productDetailID);
+    console.log(productDetailFind);
+    if (!productDetailFind) {
+      return res.status(404).json({ message: 'Chi tiết sản phẩm không tồn tại' });
+    }
+    // Thiếu trường hợp nếu dữ liệu trùng thì tăng số lượng lên, hoặc có thể truyền lớn hơn 2 số lượng vào trong cart
+    //Thiếu hàm xóa sản phẩm trong giỏ hàng
+    const newCartDetail = await CartDetail.create({
+      productDetailID,
+      color: productDetailFind.color,
+      price: productDetailFind.price,
+      size: productDetailFind.size,
+      quantity,
+      transience: productDetailFind.price * quantity
+    });
 
-//     const cart = await cartItem.save();
-//     res.status(201).json(cart);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// }
+    console.log(newCartDetail);
+
+    const cart = await Cart.findOne({ user_id });
+    if (!cart) {
+      return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+    }
+    if (quantity > productDetailFind.quantity) {
+      return res.status(400).json({ message: 'Số lượng vượt quá giới hạn cho phép' });
+    }
+    cart.products.push(newCartDetail);
+    await cart.save();
+    res.status(201).json(cart);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const getCart = async (req, res) => {
+  const user_id = req.params.user_id;
+  try {
+    const cart = await Cart.findOne({ user_id });
+    console.log(cart)
+    if (!cart) {
+      return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+    }
+    res.status(200).json(cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 
-// export const getCartDetails = async (req, res) => {
-//   try {
-//     const { id_user } = req.params
-//     const cartItems = await Cart.find().populate('id_user').populate('id_product');
-//     res.status(200).json(cartItems);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// }
