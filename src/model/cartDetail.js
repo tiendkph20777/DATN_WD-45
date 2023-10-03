@@ -2,25 +2,20 @@ import mongoose from 'mongoose';
 
 const cartDetailSchema = new mongoose.Schema({
   product_detail_id: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ProductDetail",
+  },
+  cart_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cart"
   },
   quantity: {
     type: Number,
     require: true
   },
-  color: {
-    type: String,
-  },
-  size: {
-    type: Number,
-  },
-  price: {
-    type: Number,
-  },
   transicence: {
     type: Number,
   }
-
 }, {
   timestamps: true,
   versionKey: false
