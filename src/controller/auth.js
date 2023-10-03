@@ -99,11 +99,12 @@ export const signIn = async (req, res) => {
                 message: "sai mật khẩu",
             });
         }
+        user.password = undefined;
 
-        // const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 })
+        // const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 });
         const token = jwt.sign({ _id: user._id }, "123456", { expiresIn: 60 * 60 });
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Đăng nhập thành công ",
             accessToKen: token,
             user,

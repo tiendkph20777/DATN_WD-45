@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       require: true,
     },
     role_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "Role"
     },
   },
