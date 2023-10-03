@@ -1,109 +1,125 @@
-// import User from "../model/user";
-// import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
-// import { signinSchema, userSchema } from "../schemas/user";
-// import Role from "../model/role";
+import User from "../model/user";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { signinSchema, userSchema } from "../schemas/user";
+import Role from "../model/role";
+import Cart from "../model/cart";
 
-// export const signup = async (req, res) => {
-//   try {
-//     const { name, email, password, role_id, tel, address } = req.body;
-//     const { error } = userSchema.validate(req.body, { abortEarly: false });
+const generateAndEncryptCartInfo = (userNumber) => {
+    const cartInfo = `${userNumber + 1}C`;
+    const hashedCartInfo = bcrypt.hashSync(cartInfo, 10);
+    return hashedCartInfo;
+};
 
-//     if (error) {
-//       const errors = error.details.map((err) => err.message);
-//       return res.status(404).json({
-//         message: errors,
-//       });
-//     }
 
-//     // const existingRole = await Role.findOne({ _id: role_id });
-//     // if (!existingRole) {
-//     //     return res.status(400).json({
-//     //         message: "Danh mục không tồn tại"
-//     //     });
-//     // }
+export const signup = async (req, res) => {
+    try {
+        const { userName, fullName, gender, email, password, tel, address } = req.body;
+        const { error } = userSchema.validate(req.body, { abortEarly: false });
 
-//     const userExist = await User.findOne({ email });
-//     if (userExist) {
-//       return res.status(200).json({
-//         message: "Email đã tồn tại",
-//       });
-//     }
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
+        const userExist = await User.findOne({ email });
+        if (userExist) {
+            return res.status(200).json({
+                message: "Email đã tồn tại",
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const memberRole = await Role.findOne({ name: "Member" });
+        const cartInfo = generateAndEncryptCartInfo(User.length);
+        const cart = await Cart.create({
+            cart_info: cartInfo,
+        });
+        const cartId = cart._id;
+        const user = await User.create({
+            userName,
+            fullName,
+            gender,
+            email,
+            password: hashedPassword,
+            role_id: memberRole.id,
+            tel,
+            cart_id: cartId,
+            address,
+        });
+        const token = jwt.sign({ _id: user._id }, "123456", { expiresIn: 30 * 24 * 60 * 60 });
 
-//     const hashedPassword = await bcrypt.hash(password, 10);
+        return res.status(201).json({
+            message: "Đăng ký thành công",
+            accessToKen: token,
+            user,
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: error.message,
+        });
+    }
+};
 
-//     const memberRole = await Role.findOne({ name: "member" });
-    
-//     const numberUser = User.length + 1;
-//     const cartId = await Cart.create(numberUser);
-//     const cartIdFind = Cart.findOne({ name: "numberUser"});
-//     console.log(cartIdFind._id);
-//     console.log(numberUser)
 
-//     const user = await User.create({
-//       name,
-//       email,
-//       password: hashedPassword,
-//       role_id: memberRole.id,
-//       tel,
-//       cart_id: cartIdFind._id,
-//       address,
-//     });
+export const findUserCart = async (req, res) => {
+    try {
+        const cartID = req.params;
+        const userCart = await Cart.findById(cartID)
 
-//     // console.log(numberUser);
-//     // console.log(cartId);
+        if (!userCart) {
+            return res.status(404).json({
+                message: "Không tìm thấy giỏ hàng cho người dùng này",
+            });
+        }
 
-//     //tạo token từ server
-//     const token = jwt.sign({ _id: user._id }, "123456", { expiresIn: 60 * 60 });
+        return res.status(200).json({
+            message: "Tìm thấy giỏ hàng của người dùng",
+            userCart,
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: error.message,
+        });
+    }
+};
 
-//     return res.status(201).json({
-//       message: "Đăng ký thành công",
-//       accessToKen: token,
-//       user,
-//     });
-//   } catch (error) {
-//     return res.status(404).json({
-//       message: error.message,
-//     });
-//   }
-// };
+export const signin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const { error } = signinSchema.validate(req.body, { abortEarly: false });
 
-// export const signin = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-//     const { error } = signinSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
 
-//     if (error) {
-//       const errors = error.details.map((err) => err.message);
-//       return res.status(404).json({
-//         message: errors,
-//       });
-//     }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                message: "Tài khoản không tồn tại ",
+            });
+        }
+        const isMath = await bcrypt.compare(password, user.password);
+        if (!isMath) {
+            return res.status(404).json({
+                message: "sai mật khẩu",
+            });
+        }
 
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({
-//         message: "Tài khoản không tồn tại ",
-//       });
-//     }
-//     const isMath = await bcrypt.compare(password, user.password);
-//     if (!isMath) {
-//       return res.status(404).json({
-//         message: "sai mật khẩu",
-//       });
-//     }
+        // const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 })
+        const token = jwt.sign({ _id: user._id }, "123456", { expiresIn: 60 * 60 });
 
-//     // const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: 60 * 60 })
-//     const token = jwt.sign({ _id: user._id }, "123456", { expiresIn: 60 * 60 });
-
-//     return res.status(200).json({
-//       message: "Đăng nhập thành công ",
-//       accessToKen: token,
-//       user,
-//     });
-//   } catch (error) {
-//     return res.status(404).json({
-//       message: error.message,
-//     });
-//   }
-// };
+        return res.status(200).json({
+            message: "Đăng nhập thành công ",
+            accessToKen: token,
+            user,
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: error.message,
+        });
+    }
+};

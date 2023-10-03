@@ -24,12 +24,12 @@ const cartSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "Cart",
     },
-    size:{
+    size: {
       type: Number,
     },
     quantity: {
       type: Number,
-      default:1
+      default: 1
     },
   },
   {

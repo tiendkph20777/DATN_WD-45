@@ -4,15 +4,12 @@ import ProductDetail from "../model/product_detail";
 export const createCartDetail = async (req, res) => {
   const { productDetailId } = req.params;
 
-  const contentProductDetail = await ProductDetail.findById(
-    productDetailId
-  );
-  
+  const contentProductDetail = await ProductDetail.findById(productDetailId);
+
   console.log(contentProductDetail)
   const {
     user_id,
     isGuest,
-    // product_detail_id,
     cart_id,
   } = req.body;
 
