@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../model/user";
+
 import role from "../model/role";
+
+
 dotenv.config();
 
 export const checkPermission = async (req, res, next) => {
@@ -12,7 +15,10 @@ export const checkPermission = async (req, res, next) => {
             });
         }
         const token = req.headers.authorization.split(" ")[1];
-        jwt.verify(token, "123456", async (error, payload) => {
+
+
+        jwt.verify(token, process.env.SECRET_KEY, async (error, payload) => {
+
             if (error) {
                 if (error.name === "JsonWebTokenError") {
                     return res.status(401).json({
@@ -28,6 +34,7 @@ export const checkPermission = async (req, res, next) => {
 
             const user = await User.findById(payload._id);
             const { name: Role_name } = await role.findById(user.role_id)
+
             if (!user) {
                 return res.status(401).json({
                     message: "Unauthorized",
@@ -43,4 +50,6 @@ export const checkPermission = async (req, res, next) => {
             next();
         });
     } catch (error) { }
+
 };
+
