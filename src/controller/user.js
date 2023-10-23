@@ -47,12 +47,12 @@ export const getOneUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
-        const { error } = userSchema.validate(req.body, { abortEarly: false });
-        if (error) {
-            return res.status(400).json({
-                message: error.details.map((err) => err.message)
-            });
-        }
+        // const { error } = userSchema.validate(req.body, { abortEarly: false });
+        // if (error) {
+        //     return res.status(400).json({
+        //         message: error.details.map((err) => err.message)
+        //     });
+        // }
         const { email, password } = req.body;
         const existingUser = await User.findOne({
             email,
