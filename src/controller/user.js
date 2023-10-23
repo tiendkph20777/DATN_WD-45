@@ -1,6 +1,6 @@
 import { userSchema } from "../schemas/user";
 import User from "../model/user";
-
+import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -47,9 +47,15 @@ export const getOneUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name } = req.body;
+        // const { error } = userSchema.validate(req.body, { abortEarly: false });
+        // if (error) {
+        //     return res.status(400).json({
+        //         message: error.details.map((err) => err.message)
+        //     });
+        // }
+        const { email, password } = req.body;
         const existingUser = await User.findOne({
-            name,
+            email,
             _id: { $ne: id }
         });
         if (existingUser) {
@@ -57,9 +63,14 @@ export const updateUser = async (req, res) => {
                 message: "User đã tồn tại"
             });
         }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const updatedUserData = {
+            email,
+            password: hashedPassword,
+        };
         const user = await User.findByIdAndUpdate(
             id,
-            req.body,
+            updatedUserData,
             {
                 new: true,
             }
@@ -76,9 +87,9 @@ export const updateUser = async (req, res) => {
     } catch (error) {
         return res.status(404).json({
             message: error.message,
-        })
+        });
     }
-}
+};
 
 export const deleteUser = async (req, res) => {
     try {

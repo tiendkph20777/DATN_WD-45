@@ -8,6 +8,7 @@ productRouter.post('/product/add', checkPermission, createProduct);
 productRouter.get('/product', getAllProducts);
 productRouter.get('/product/:id', getProductById);
 productRouter.put('/product/:id/update', checkPermission, updateProduct);
-productRouter.delete('/product/:id', checkPermission, removeProduct);
+productRouter.delete('/product/:product_id', checkPermission, removeProduct);
+
 
 export default productRouter;

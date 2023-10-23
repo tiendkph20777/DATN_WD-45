@@ -3,24 +3,22 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
+    sku: { type: String, default: "" },
+    images: { type: Array },
     price: {
         type: Number,
-        required: true,
+        required: true
     },
-    cate_id: {
+    price_sale: Number,
+    brand_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-        required: true,
+        ref: "Brand",
     },
-    description: {
-        type: String,
-    },
-    rate: {
-        type: Number,
-    }
-
+    status: String,
+    description: String,
+    rate: Number
 },
     {
         timestamps: true,
