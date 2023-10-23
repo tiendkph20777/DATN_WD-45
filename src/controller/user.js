@@ -1,6 +1,9 @@
 import { userSchema } from "../schemas/user";
 import User from "../model/user";
 import bcrypt from "bcryptjs";
+import Cart from "../model/cart";
+import Role from "../model/role";
+
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -34,15 +37,49 @@ export const getOneUserById = async (req, res) => {
     }
 }
 
-// export const createUser = async (req, res) => {
-//     try {
+export const createStaff = async (req, res) => {
+    try {
+        const { image, userName, fullName, gender, address, tel, email, password } = req.body;
+        const { error } = userSchema.validate(req.body, { abortEarly: false });
 
-//     } catch (error) {
-//         return res.status(404).json({
-//             message: error.message,
-//         })
-//     }
-// }
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(404).json({
+                message: errors,
+            });
+        }
+        const userExist = await User.findOne({ email });
+        if (userExist) {
+            return res.status(200).json({
+                message: "Email đã tồn tại",
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const staffRole = await Role.findOne({ name: "Staff" });
+        const user = await User.create({
+            image,
+            userName,
+            fullName,
+            gender,
+            email,
+            password: hashedPassword,
+            role_id: staffRole.id,
+            tel,
+            address,
+        });
+        const cart = await Cart.create({
+            user_id: user._id,
+        })
+        return res.status(201).json({
+            message: "Đăng ký thành công",
+            user, cart
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: error.message,
+        });
+    }
+}
 
 export const updateUser = async (req, res) => {
     try {

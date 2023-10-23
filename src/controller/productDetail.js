@@ -37,14 +37,14 @@ export const getAllProductDetailAllProduct = async (req, res) => {
 
 export const getProductDetailByIdProduct = async (req, res) => {
     try {
-        const { product_id, size, color } = req.params;
-        const productDetail = await ProductDetail.findOne({ product_id, size, color });
+        const { product_id } = req.params;
+        const productDetail = await ProductDetail.findById(product_id);
         if (!productDetail) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm"
             });
         }
-        return res.json({ quantity: productDetail });
+        return res.json({ productDetail });
     } catch (error) {
         return res.status(400).json({
             message: error.message
@@ -80,19 +80,22 @@ export const createProductDetail = async (req, res) => {
 
 export const updateProductDetail = async (req, res) => {
     try {
-        const { product_id, size, color } = req.params;
-        const { quantity } = req.body;
-        const existingProductDetail = await ProductDetail.findOne({ product_id, size, color, quantity });
-        if (!existingProductDetail) {
-            return res.status(404).json({
-                message: "Không tìm thấy sản phẩm"
+        const { product_id } = req.params;
+        const product = await ProductDetail.findByIdAndUpdate(
+            product_id,
+            req.body,
+            {
+                new: true,
+            }
+        );
+        if (!product) {
+            return res.json({
+                message: "Cập nhật sản phẩm không thành công"
             });
         }
-        existingProductDetail.quantity = quantity;
-        await existingProductDetail.save();
         return res.json({
-            message: "Cập nhật thông tin sản phẩm thành công",
-            updatedProductDetail: existingProductDetail
+            message: "Cập nhật sản phẩm thành công",
+            product,
         });
     } catch (error) {
         return res.status(400).json({
@@ -103,16 +106,15 @@ export const updateProductDetail = async (req, res) => {
 
 export const removeProductDetailbyID = async (req, res) => {
     try {
-        const { product_id, size, color } = req.params;
-        const productDetail = await ProductDetail.findOneAndDelete({ product_id, size, color });
-        if (!productDetail) {
+        const { product_id } = req.params
+        const product = await ProductDetail.findByIdAndDelete(product_id);
+        if (!product) {
             return res.status(404).json({
                 message: "Không tìm thấy sản phẩm để xóa"
             });
         }
         return res.json({
             message: "Xóa sản phẩm thành công",
-            productDetail,
         });
     } catch (error) {
         return res.status(400).json({
