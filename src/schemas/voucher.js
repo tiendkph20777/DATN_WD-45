@@ -1,10 +1,10 @@
-import joi from "joi";
+import Joi from "joi";
 
-export const voucherSchema = joi.object({
-    code: joi.string().required(),
-    value: joi.number().required(),
-    quantity: joi.number().required(),
-    date_start: joi.date().default(Date.now),
-    date_end: joi.date().default(Date.now),
-    status: joi.boolean(),
+export const voucherSchema = Joi.object({
+    code: Joi.string().required(),
+    value: Joi.string().required(),
+    quantity: Joi.number().required(),
+    date_start: Joi.date().iso().allow(null),
+    date_end: Joi.date().iso().allow(null),
+    status: Joi.boolean().default(false)
 });

@@ -7,7 +7,7 @@ const voucherSchema = new mongoose.Schema(
             required: true,
         },
         value: {
-            type: Number,
+            type: String,
             required: true,
         },
         quantity: {
@@ -16,11 +16,11 @@ const voucherSchema = new mongoose.Schema(
         },
         date_start: {
             type: Date,
-            default: Date.now,
+            required: true,
         },
         date_end: {
             type: Date,
-            default: Date.now,
+            default: null,
         },
         status: {
             type: Boolean,

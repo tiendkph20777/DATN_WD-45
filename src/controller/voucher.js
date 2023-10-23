@@ -26,8 +26,15 @@ export const createVoucher = async (req, res) => {
                 message: error.details.map((err) => err.message)
             });
         }
-        const { code, value, quantity, status } = req.body;
-        const voucher = new Voucher({ code, value, quantity, status });
+        const { code, value, quantity, status, date_start, date_end } = req.body;
+        if (!date_start) {
+            return res.status(400).json({ message: "Ngày bắt đầu là bắt buộc" });
+        }
+        if (date_end && new Date(date_end) <= new Date(date_start)) {
+            return res.status(400).json({ message: "Ngày kết thúc phải sau ngày bắt đầu" });
+        }
+
+        const voucher = new Voucher({ code, value, quantity, status, date_start, date_end });
         await voucher.save();
         res.status(201).json(voucher);
     } catch (error) {
@@ -35,18 +42,28 @@ export const createVoucher = async (req, res) => {
     }
 };
 
-// Lấy thông tin một voucher bằng ID
-export const getVoucherById = async (req, res) => {
+
+// Lấy thông tin một voucher bằng code
+export const getVoucherByCode = async (req, res) => {
     try {
-        const voucher = await Voucher.findById(req.params.id);
+        const { code } = req.params;
+        if (!code) {
+            return res.status(400).json({ error: 'Mã voucher không hợp lệ' });
+        }
+        const voucher = await Voucher.findOne({ code });
+
         if (!voucher) {
             return res.status(404).json({ error: 'Voucher not found' });
+        }
+        if (voucher.date_end && new Date() > voucher.date_end) {
+            return res.status(400).json({ error: 'Voucher đã hết hạn' });
         }
         res.status(200).json(voucher);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Cập nhật thông tin một voucher bằng ID
 export const updateVoucherById = async (req, res) => {
