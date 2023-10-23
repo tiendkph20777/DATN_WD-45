@@ -35,7 +35,7 @@ app.use("/api", cartRouter)
 // app.use("/api", paymentRouter)
 
 
-mongoose.connect("mongodb+srv://laxus:0e5eEKo4gYkGAgYH@cluster0.yfuqvhg.mongodb.net/test", {
+mongoose.connect("mongodb+srv://laxus:IxnIvFuEVLsMlBhv@cluster0.yfuqvhg.mongodb.net/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
