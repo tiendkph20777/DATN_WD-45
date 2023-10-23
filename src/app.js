@@ -25,7 +25,7 @@ app.use("/api", authRouter)
 app.use("/api", roleRouter)
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
+mongoose.connect("mongodb+srv://laxus:0e5eEKo4gYkGAgYH@cluster0.yfuqvhg.mongodb.net/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
