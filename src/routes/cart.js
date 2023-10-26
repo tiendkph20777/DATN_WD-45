@@ -1,9 +1,10 @@
 import express from 'express';
-import { getCart, addToCart, getCartDetail } from '../controller/cart';
+import { getCart, addToCart, getCartDetail, tokenUser } from '../controller/cart';
 const cartRouter = express.Router();
 
 // Thêm sản phẩm vào giỏ hàng
-cartRouter.post('/cart/add/:productDetailID', addToCart);
+cartRouter.post('/cart/token', tokenUser);
+cartRouter.post('/cart/add/:idProductDetail/:user_id', addToCart);
 
 // Lấy thông tin giỏ hàng
 cartRouter.get('/cart/:user_id', getCart);
