@@ -4,11 +4,10 @@ const cartSchema = new mongoose.Schema({
     user_id: {
         type: String
     },
-    products: [{
-        cart_detail_id: {
-            type: String
-        },
-    }]
+    products: [
+        { productDetailId: { type: String } },
+        { quantity: { type: String } }
+    ]
 }, {
     timestamps: true,
     versionKey: false
