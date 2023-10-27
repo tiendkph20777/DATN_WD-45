@@ -1,19 +1,11 @@
 import mongoose from 'mongoose';
 
 const cartDetailSchema = new mongoose.Schema({
-  product_detail_id: {
+  productDetailId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "ProductDetail",
   },
-  cart_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Cart"
-  },
   quantity: {
-    type: Number,
-    require: true
-  },
-  transicence: {
     type: Number,
   }
 }, {

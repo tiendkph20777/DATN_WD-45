@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     sku: { type: String, default: "" },
-    images: { type: Array },
+    images: { type: String },
     price: {
         type: Number,
         required: true

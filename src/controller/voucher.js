@@ -63,6 +63,23 @@ export const getVoucherByCode = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+// Lấy thông tin một voucher bằng id
+export const getVoucherById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const voucher = await Voucher.findById(id);
+
+        if (!voucher) {
+            return res.status(404).json({ error: 'Voucher not found' });
+        }
+        if (voucher.date_end && new Date() > voucher.date_end) {
+            return res.status(400).json({ error: 'Voucher đã hết hạn' });
+        }
+        res.status(200).json(voucher);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 
 // Cập nhật thông tin một voucher bằng ID

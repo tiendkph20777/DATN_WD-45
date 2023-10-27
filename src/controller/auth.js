@@ -91,13 +91,15 @@ export const signIn = async (req, res) => {
                 message: "sai mật khẩu",
             });
         }
+        const cart = await Cart.findOne({user_id: user._id})
         user.password = undefined;
         const expiresInInSeconds = 30 * 24 * 60 * 60;
         const token = jwt.sign({ _id: user._id }, process.env.KEY_RAR, { expiresIn: expiresInInSeconds });
         return res.status(201).json({
             message: "Đăng nhập thành công ",
             accessToKen: token,
-            user,
+            user: user._id,
+            cart: cart.products
         });
     } catch (error) {
         return res.status(404).json({
