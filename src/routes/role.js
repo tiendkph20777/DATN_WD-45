@@ -5,8 +5,8 @@ import { checkPermission } from '../middleware/checkPermission';
 const roleRouter = express.Router();
 
 roleRouter.post("/role/add", checkPermission, createRole)
-roleRouter.get("/role", checkPermission, getAllRole)
-roleRouter.get("/role/:id", checkPermission, getRoleById)
+roleRouter.get("/role", getAllRole)
+roleRouter.get("/role/:id", getRoleById)
 roleRouter.put("/role/:id/update", checkPermission, updateRole)
 roleRouter.delete("/role/:id", checkPermission, removeRole)
 export default roleRouter

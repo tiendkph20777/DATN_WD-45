@@ -8,9 +8,11 @@ export const userSchema = joi.object({
     fullName: joi.string().required().messages({
         "any.required": "Họ và tên là bắt buộc",
     }),
-    gender: joi.string().required().messages({
-        "any.required": "Giới tính là bắt buộc",
-    }),
+    // gender: joi.string().required().messages({
+    //     "any.required": "Giới tính là bắt buộc",
+    // }),
+    aboutme: joi.string(),
+    gender: joi.string(),
     address: joi.string(),
     tel: joi.string(),
     email: joi.string().email().required().messages({

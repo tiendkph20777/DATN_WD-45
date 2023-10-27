@@ -39,7 +39,7 @@ export const getOneUserById = async (req, res) => {
 
 export const createStaff = async (req, res) => {
     try {
-        const { image, userName, fullName, gender, address, tel, email, password } = req.body;
+        const { image, userName, fullName, gender, address, tel, email, password, aboutme } = req.body;
         const { error } = userSchema.validate(req.body, { abortEarly: false });
 
         if (error) {
@@ -66,6 +66,7 @@ export const createStaff = async (req, res) => {
             role_id: staffRole.id,
             tel,
             address,
+            aboutme,
         });
         const cart = await Cart.create({
             user_id: user._id,
@@ -107,7 +108,8 @@ export const updateUser = async (req, res) => {
         };
         const user = await User.findByIdAndUpdate(
             id,
-            updatedUserData,
+            // updatedUserData,
+            req.body,
             {
                 new: true,
             }
