@@ -1,11 +1,6 @@
-import joi from "joi";
+import { cartDetailSchema } from "./cartDetail";
 
-export const cartSchema = joi.object({
-    user_id: joi.string().required(),
-    products: joi.array().items(
-        joi.object({
-            productDetailId: joi.string().required(),
-            quantity: joi.number().required()
-        })
-    )
+export const cartSchema = Joi.object({
+    user_id: Joi.string().required(),
+    products: Joi.array().items(cartDetailSchema),
 });

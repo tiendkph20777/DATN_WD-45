@@ -4,7 +4,7 @@ const cartRouter = express.Router();
 
 // Thêm sản phẩm vào giỏ hàng
 cartRouter.post('/cart/token', tokenUser);
-cartRouter.post('/cart/add/:idProductDetail/:user_id', addToCart);
+cartRouter.post('/cart/add/:productDetailId/:user_id', addToCart);
 
 // Lấy thông tin giỏ hàng
 cartRouter.get('/cart/:user_id', getCart);
