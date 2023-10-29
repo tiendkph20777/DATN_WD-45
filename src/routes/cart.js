@@ -7,7 +7,7 @@ cartRouter.post('/cart/token', tokenUser);
 cartRouter.post('/cart/add/:productDetailId/:user_id', addToCart);
 
 // Lấy thông tin giỏ hàng
-cartRouter.get('/cart/:user_id', getCart);
+cartRouter.get('/cart/:id', getCart);
 
 cartRouter.get('/cart/cart-detail', getCartDetail);
 

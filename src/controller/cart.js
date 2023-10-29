@@ -37,47 +37,58 @@ export const addToCart = async (req, res) => {
         message: "Giỏ hàng không tồn tại"
       });
     }
+
     const cartDetails = await CartDetail.find({ cart_id: cart._id });
     const findProductDetail = await ProductDetail.findById(productDetailId);
+
     if (!findProductDetail) {
       return res.status(400).json({
         message: "Sản Phẩm Chi Tiết Không Tồn Tại"
       });
     }
-    const findProductDetailID = findProductDetail._id
-    for (let i = 0; i <= cartDetails.length; i++) {
-      let check = false
-      const detail = cartDetails[i];
-      if (detail.productDetailId = findProductDetailID) {
+
+    let check = false;
+    let updatedCartDetail;
+
+    for (const detail of cartDetails) {
+      if (JSON.stringify(detail.productDetailId) === JSON.stringify(findProductDetail._id)) {
         check = true;
         const quantityUpdate = detail.quantity + 1;
-        await CartDetail.updateMany(
+        updatedCartDetail = await CartDetail.updateMany(
           { cart_id: detail.cart_id, productDetailId: detail.productDetailId },
           { quantity: quantityUpdate }
         );
-        return res.json({
-          message: "Sản phẩm đã được thêm vào giỏ hàng",
-          CartDetail,
-          check,
-        });
-      } else {
-        check = false;
-        CartDetail.create({
-          cart_id: cart._id,
-          productDetailId: findProductDetailID,
-          quantity: 1,
-        });
-        return res.json({
-          message: "Sản phẩm được tạo mới",
-          CartDetail,
-          check
-        });
       }
     }
+
+    if (!check) {
+      const newCartDetail = new CartDetail({
+        cart_id: cart._id,
+        productDetailId: findProductDetail._id,
+        quantity: 1,
+      });
+      updatedCartDetail = await newCartDetail.save();
+    }
+
+    return res.json({
+      message: check ? "Sản phẩm đã được thêm vào giỏ hàng" : "Sản phẩm được tạo mới",
+      CartDetail: updatedCartDetail,
+      check,
+    });
+
   } catch (error) {
     res.status(400).json({ message: 'Có lỗi xảy ra: ' + error.message });
   }
 };
+
+
+export const removeProductDetail = (req, res) => {
+  try {
+
+  } catch (error) {
+
+  }
+}
 
 
 
