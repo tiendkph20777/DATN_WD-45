@@ -45,7 +45,7 @@ export const addToCart = async (req, res) => {
       });
     }
     const findProductDetailID = findProductDetail._id
-    for (let i = 0; i < cartDetails.length; i++) {
+    for (let i = 0; i <= cartDetails.length; i++) {
       let check = false
       const detail = cartDetails[i];
       if (detail.productDetailId = findProductDetailID) {
