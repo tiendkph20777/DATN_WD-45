@@ -48,7 +48,7 @@ export const addToCart = async (req, res) => {
     for (let i = 0; i < cartDetails.length; i++) {
       let check = false
       const detail = cartDetails[i];
-      if (JSON.stringify(detail.productDetailId) === JSON.stringify(findProductDetailID)) {
+      if (detail.productDetailId = findProductDetailID) {
         check = true;
         const quantityUpdate = detail.quantity + 1;
         await CartDetail.updateMany(
