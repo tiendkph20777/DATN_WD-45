@@ -39,7 +39,8 @@ export const signUp = async (req, res) => {
         })
         return res.status(201).json({
             message: "Đăng ký thành công",
-            user, cart
+            user,
+            cart
         });
     } catch (error) {
         return res.status(404).json({

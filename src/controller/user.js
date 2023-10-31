@@ -133,6 +133,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
+        const removeCart = await Cart.findOneAndDelete({ user_id: req.params.id })
         if (!user) {
             return res.status(404).json({
                 message: "Không tìm thấy user để xóa"
@@ -141,6 +142,8 @@ export const deleteUser = async (req, res) => {
         return res.json({
             message: "Xóa user thành công",
             user,
+            message: "Xóa cart thành công",
+            removeCart
         });
     } catch (error) {
         return res.status(404).json({
