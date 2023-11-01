@@ -31,6 +31,7 @@ export const addToCart = async (req, res) => {
   try {
     const { productDetailId, user_id } = req.params;
     const cart = await Cart.findOne({ user_id: user_id });
+    console.log(cart);
 
     if (!cart) {
       return res.status(400).json({
@@ -58,6 +59,10 @@ export const addToCart = async (req, res) => {
           { cart_id: detail.cart_id, productDetailId: detail.productDetailId },
           { quantity: quantityUpdate }
         );
+        await Cart.updateMany(
+          { user_id: user_id },
+          { $push: { cartDetails: updatedCartDetail._id } }
+        );
       }
     }
 
@@ -68,6 +73,10 @@ export const addToCart = async (req, res) => {
         quantity: 1,
       });
       updatedCartDetail = await newCartDetail.save();
+      await Cart.updateMany(
+        { user_id: user_id },
+        { $push: { cartDetails: updatedCartDetail._id } }
+      );
     }
 
     return res.json({

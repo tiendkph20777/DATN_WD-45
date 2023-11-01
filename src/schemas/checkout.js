@@ -1,7 +1,7 @@
 import joi from "joi";
 
-export const orderSchema = joi.object({
-    id_cart: joi.string().required(),
+export const checkoutSchema = joi.object({
+    products: joi.array().required(),
     user_id: joi.string().required(),
     dateCreate: joi.string(),
     total: joi.number(),

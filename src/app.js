@@ -12,6 +12,8 @@ import commentRouter from './routes/comment';
 import voucherRouter from "./routes/voucher";
 import cartRouter from "./routes/cart";
 import productDetailRouter from "./routes/productDetail";
+import paymentRouter from "./routes/payment";
+import checkoutRouter from "./routes/checkout";
 
 
 const app = express();
@@ -32,6 +34,8 @@ app.use("/api", roleRouter)
 app.use("/api", commentRouter)
 app.use("/api", voucherRouter)
 app.use("/api", cartRouter)
+app.use("/api", paymentRouter)
+app.use("/api", checkoutRouter)
 // app.use("/api", paymentRouter)
 
 
