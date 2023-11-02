@@ -3,16 +3,23 @@ import Cart from "../model/cart";
 import cartDetail from "../model/cartDetail";
 import CartDetail from "../model/cartDetail";
 import ProductDetail from "../model/productDetail";
-export const getCartDetail = async (req, res) => {
-  try {
 
-    return res.json();
+
+export const getCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ user_id: req.params.id });
+    const cartDetails = await cartDetail.find({ cart_id: cart._id });
+    return res.status(201).json({
+      message: "Lấy danh sách sản phẩm",
+      products: cartDetails,
+    });
   } catch (error) {
     return res.status(400).json({
       message: error.message
     });
   }
 }
+
 export const tokenUser = async (req, res) => {
   try {
     const { token } = req.body;
@@ -26,12 +33,11 @@ export const tokenUser = async (req, res) => {
   }
 }
 
-
 export const addToCart = async (req, res) => {
   try {
     const { productDetailId, user_id } = req.params;
     const cart = await Cart.findOne({ user_id: user_id });
-    console.log(cart);
+    console.log(user_id);
 
     if (!cart) {
       return res.status(400).json({
@@ -41,7 +47,6 @@ export const addToCart = async (req, res) => {
 
     const cartDetails = await CartDetail.find({ cart_id: cart._id });
     const findProductDetail = await ProductDetail.findById(productDetailId);
-
     if (!findProductDetail) {
       return res.status(400).json({
         message: "Sản Phẩm Chi Tiết Không Tồn Tại"
@@ -90,25 +95,19 @@ export const addToCart = async (req, res) => {
   }
 };
 
+/////////////////////////////////////////////////////////////// 
 
-export const removeProductDetail = (req, res) => {
+export const getCartDetail = async (req, res) => {
   try {
-
-  } catch (error) {
-
-  }
-}
-
-
-
-
-export const getCart = async (req, res) => {
-  try {
-    const cart = await Cart.findOne({ user_id: req.params.id });
-    const cartDetails = await cartDetail.find({ cart_id: cart._id });
-    return res.status(201).json({
-      message: "Lấy danh sách sản phẩm",
-      products: cartDetails,
+    const cartDetails = await cartDetail.findById(req.params.id);
+    if (!cartDetails) {
+      return res.status(404).json({
+        message: "sản phẩm không có trong giỏ hàng tồn tại"
+      });
+    }
+    return res.json({
+      message: "lấy sản phẩm giỏ hàng thành công",
+      cartDetails,
     });
   } catch (error) {
     return res.status(400).json({
@@ -116,6 +115,65 @@ export const getCart = async (req, res) => {
     });
   }
 }
+
+export const removeCartDetail = async (req, res) => {
+  try {
+    const cart = await cartDetail.findByIdAndDelete(req.params.id);
+    if (!cart) {
+      return res.status(404).json({
+        message: "Không sản phẩm trong giỏ hàng để xóa"
+      });
+    }
+    return res.json({
+      message: "Xóa sản phẩm giỏ hàng thành công",
+      cart,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    });
+  }
+}
+
+export const updateCart = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const existingCart = await cartDetail.findOne({
+      name,
+      _id: { $ne: req.params.id }
+    });
+    // if (existingCart) {
+    //   return res.status(400).json({
+    //     message: "thương hiệu đã được tạo trước đó"
+    //   });
+    // }
+    const cart = await cartDetail.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    if (!cart) {
+      return res.json({
+        message: "Không có sản phẩm đó trong giỏ hàng"
+      });
+    }
+    return res.json({
+      message: "Cập nhật thương hiệu thành công",
+      cart,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    });
+  }
+}
+
+
+
+
 
 
 
