@@ -28,7 +28,6 @@ app.get("/api", (req, res) => {
 app.use("/api", productRouter)
 app.use("/api", productDetailRouter)
 app.use("/api", userRouter)
-// app.use("/api", c)
 app.use("/api", authRouter)
 app.use("/api", roleRouter)
 app.use("/api", commentRouter)
@@ -36,7 +35,6 @@ app.use("/api", voucherRouter)
 app.use("/api", cartRouter)
 app.use("/api", paymentRouter)
 app.use("/api", checkoutRouter)
-// app.use("/api", paymentRouter)
 
 
 // mongoose.connect("mongodb+srv://laxus:IxnIvFuEVLsMlBhv@cluster0.yfuqvhg.mongodb.net/test", {
