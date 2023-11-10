@@ -1,7 +1,10 @@
 import Checkout from "../model/checkout";
+import CartDetail from "../model/cartDetail";
+import Cart from "../model/cart";
 export const createCheckout = async (req, res) => {
     const {
-        products, user_id, dateCreate, total, address, status, Note, fullName, email, tel, voucherCode, shipping, payment_id, PaymentAmount } = req.body;
+        products, user_id, dateCreate, total, address, status, Note, fullName, email, tel, voucherCode, shipping, payment_id, PaymentAmount
+    } = req.body;
     try {
         const checkoutItem = new Checkout({
             products,
@@ -19,12 +22,20 @@ export const createCheckout = async (req, res) => {
             payment_id,
             PaymentAmount
         });
+
         const savedCheckoutItem = await checkoutItem.save();
-        res.status(201).json(savedCheckoutItem);
+
+        if (savedCheckoutItem) {
+            const findCart = await Cart.findOne({ user_id });
+            const idCartDetail = findCart._id;
+            await CartDetail.deleteMany({ cart_id: idCartDetail });
+            res.status(201).json(savedCheckoutItem);
+        }
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }
+
 
 export const getCheckout = async (req, res) => {
     try {
