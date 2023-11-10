@@ -36,7 +36,7 @@ export const tokenUser = async (req, res) => {
 export const addToCart = async (req, res) => {
   try {
     const { productDetailId, user_id } = req.params;
-    const { quantity, color } = req.body;
+    const { quantity } = req.body;
     const cart = await Cart.findOne({ user_id: user_id });
     // console.log(quantity);
 
@@ -77,7 +77,6 @@ export const addToCart = async (req, res) => {
         cart_id: cart._id,
         productDetailId: findProductDetail._id,
         quantity: quantity,
-        color: color
       });
       updatedCartDetail = await newCartDetail.save();
       await Cart.updateMany(
