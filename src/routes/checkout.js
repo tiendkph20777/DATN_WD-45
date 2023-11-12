@@ -6,9 +6,14 @@ const checkoutRouter = express.Router();
 //Them vao don hang
 checkoutRouter.post('/checkout/add', createCheckout);
 //lay thong tin don hang
-checkoutRouter.get('/checkout', checkPermission, getCheckout);
+// checkoutRouter.get('/checkout', checkPermission, getCheckout);
+// checkoutRouter.get('/checkout/:id', getOneCheckout);
+// checkoutRouter.put('/checkout/:id/update', checkPermission, updateCheckout);
+// checkoutRouter.delete('/checkout/:id', checkPermission, removeCheckout);
+
+checkoutRouter.get('/checkout', getCheckout);
 checkoutRouter.get('/checkout/:id', getOneCheckout);
-checkoutRouter.put('/checkout/:id/update', checkPermission, updateCheckout);
-checkoutRouter.delete('/checkout/:id', checkPermission, removeCheckout);
+checkoutRouter.put('/checkout/:id/update', updateCheckout);
+checkoutRouter.delete('/checkout/:id', removeCheckout);
 
 export default checkoutRouter;
