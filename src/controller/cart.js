@@ -63,7 +63,7 @@ export const addToCart = async (req, res) => {
         const quantityUpdate = detail.quantity + quantity;
         updatedCartDetail = await CartDetail.updateMany(
           { cart_id: detail.cart_id, productDetailId: detail.productDetailId },
-          { quantity: quantityUpdate }
+          { quantity: quantityUpdate },
         );
         await Cart.updateMany(
           { user_id: user_id },
