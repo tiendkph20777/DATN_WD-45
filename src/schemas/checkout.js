@@ -12,7 +12,7 @@ export const checkoutSchema = joi.object({
     email: joi.string().required(),
     tel: joi.number().required(),
     voucherCode: joi.string(),
-    shipping: joi.string().required(),
+    shipping: joi.string(),
     payment_id: joi.string().required(),
     PaymentAmount: joi.number(),
 });
