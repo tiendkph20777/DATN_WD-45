@@ -7,7 +7,7 @@ import Cart from "../model/cart";
 
 export const signUp = async (req, res) => {
     try {
-        const { image, userName, fullName, gender, address, tel, email, password } = req.body;
+        const { image, fullName, gender, address, tel, email, password } = req.body;
         const { error } = userSchema.validate(req.body, { abortEarly: false });
         if (error) {
             const errors = error.details.map((err) => err.message);
@@ -25,7 +25,6 @@ export const signUp = async (req, res) => {
         const memberRole = await Role.findOne({ name: "Member" });
         const user = await User.create({
             image,
-            userName,
             fullName,
             gender,
             email,

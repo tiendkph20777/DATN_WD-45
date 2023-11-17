@@ -15,4 +15,5 @@ export const checkoutSchema = joi.object({
     shipping: joi.string(),
     payment_id: joi.string().required(),
     PaymentAmount: joi.number(),
+    noteCancel: joi.string(),
 });
