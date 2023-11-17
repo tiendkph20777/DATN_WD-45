@@ -43,6 +43,9 @@ const checkoutSchema = new mongoose.Schema({
     shipping: {
         type: String,
     },
+    noteCancel: {
+        type: String,
+    },
     payment_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment",

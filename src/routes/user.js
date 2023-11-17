@@ -12,4 +12,5 @@ userRouter.post('/user/add/staff', checkPermission, createStaff)
 userRouter.put('/user/:id/update', updateUser)
 userRouter.delete('/user/:id', checkPermission, deleteUser)
 
+
 export default userRouter

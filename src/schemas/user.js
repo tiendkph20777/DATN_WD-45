@@ -2,18 +2,15 @@ import joi from 'joi'
 
 export const userSchema = joi.object({
     image: joi.string(),
-    userName: joi.string().required().messages({
-        "any.required": "Tên là bắt buộc",
-    }),
     fullName: joi.string().required().messages({
         "any.required": "Họ và tên là bắt buộc",
     }),
-    // gender: joi.string().required().messages({
-    //     "any.required": "Giới tính là bắt buộc",
-    // }),
     aboutme: joi.string(),
     gender: joi.string(),
     address: joi.string(),
+    city: joi.string(),
+    commune: joi.string(),
+    district: joi.string(),
     tel: joi.string(),
     email: joi.string().email().required().messages({
         "string.email": "Email không đúng định dạng ",

@@ -4,22 +4,26 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    userName: {
-      type: String,
-      require: true,
-    },
     fullName: {
       type: String,
       require: true
     },
     gender: {
       type: String,
-      // require: true
     },
     aboutme: {
       type: String,
     },
     address: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    commune: {
+      type: String,
+    },
+    city: {
       type: String,
     },
     tel: {

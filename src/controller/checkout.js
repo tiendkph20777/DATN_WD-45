@@ -3,7 +3,7 @@ import CartDetail from "../model/cartDetail";
 import Cart from "../model/cart";
 export const createCheckout = async (req, res) => {
     const {
-        products, user_id, dateCreate, total, address, status, Note, fullName, email, tel, voucherCode, shipping, payment_id, PaymentAmount
+        products, user_id, dateCreate, total, address, status, Note, fullName, email, tel, voucherCode, shipping, payment_id, PaymentAmount, noteCancel
     } = req.body;
     try {
         const checkoutItem = new Checkout({
@@ -20,7 +20,8 @@ export const createCheckout = async (req, res) => {
             voucherCode,
             shipping,
             payment_id,
-            PaymentAmount
+            PaymentAmount,
+            noteCancel,
         });
 
         const savedCheckoutItem = await checkoutItem.save();
