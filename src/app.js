@@ -37,15 +37,15 @@ app.use("/api", paymentRouter)
 app.use("/api", checkoutRouter)
 
 
-// mongoose.connect("mongodb+srv://laxus:IxnIvFuEVLsMlBhv@cluster0.yfuqvhg.mongodb.net/test", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// });
-
-mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
+mongoose.connect("mongodb+srv://laxus:IxnIvFuEVLsMlBhv@cluster0.yfuqvhg.mongodb.net/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
+// mongoose.connect("mongodb://127.0.0.1:27017/DATN", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// });
 
 // Sự kiện khi kết nối thành công
 mongoose.connection.on("connected", () => {
