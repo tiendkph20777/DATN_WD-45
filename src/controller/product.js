@@ -2,6 +2,9 @@
 import { productSchema } from '../schemas/product';
 import Product from '../model/product'
 import Brand from '../model/brand'
+import ProductDetail from '../model/productDetail';
+import cli from '@angular/cli';
+
 export const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
@@ -120,7 +123,6 @@ export const removeProduct = async (req, res) => {
                 message: "Không tìm thấy sản phẩm để xóa"
             });
         }
-        // Nếu danh mục bị xóa thì tất cả sản phẩm sẽ trở về brand là trống
         await ProductDetail.deleteMany({ product_id });
         return res.json({
             message: "Xóa sản phẩm thành công",
@@ -131,4 +133,78 @@ export const removeProduct = async (req, res) => {
         });
     }
 }
+
+export const reductionProduct = async (req, res) => {
+    try {
+        const { product_id, quantityProduct } = req.params;
+        // const { quantityProduct } = req.body;
+        const product = await ProductDetail.findById({ _id: product_id });
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Không tìm thấy sản phẩm để giảm số lượng"
+            });
+        }
+
+        if (isNaN(quantityProduct) || quantityProduct <= 0) {
+            return res.status(400).json({
+                message: "Số lượng giảm không hợp lệ"
+            });
+        }
+
+        console.log(product.quantity);
+
+        const updatedProduct = await ProductDetail.findByIdAndUpdate(
+            { _id: product_id },
+            { $inc: { quantity: -quantityProduct } },
+            { new: true }
+        );
+
+        return res.json({
+            message: "Giảm số lượng sản phẩm thành công",
+            updatedProduct
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+};
+export const increaseProduct = async (req, res) => {
+    try {
+        const { product_id, quantityProduct } = req.params;
+        // const { quantityProduct } = req.body;
+        const product = await ProductDetail.findById({ _id: product_id });
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Không tìm thấy sản phẩm để tăng số lượng"
+            });
+        }
+
+        if (isNaN(quantityProduct) || quantityProduct <= 0) {
+            return res.status(400).json({
+                message: "Số lượng tăng không hợp lệ"
+            });
+        }
+
+        console.log(product.quantity);
+
+        const updatedProduct = await ProductDetail.findByIdAndUpdate(
+            { _id: product_id },
+            { $inc: { quantity: + quantityProduct } },
+            { new: true }
+        );
+
+        return res.json({
+            message: "Tăng số lượng sản phẩm thành công",
+            updatedProduct
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+};
+
 
