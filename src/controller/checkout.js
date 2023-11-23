@@ -30,7 +30,8 @@ export const createCheckout = async (req, res) => {
             const findCart = await Cart.findOne({ user_id });
             const idCartDetail = findCart._id;
             await CartDetail.deleteMany({ cart_id: idCartDetail });
-            res.status(201).json(savedCheckoutItem);
+            const reponseCart = CartDetail.findById(user_id)
+            res.status(201).json(savedCheckoutItem, reponseCart);
         }
     } catch (error) {
         res.status(400).json({ message: error.message });

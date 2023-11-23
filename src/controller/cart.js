@@ -7,7 +7,8 @@ import ProductDetail from "../model/productDetail";
 
 export const getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user_id: req.params.id });
+    const { userID } = req.params
+    const cart = await Cart.findOne({ user_id: userID });
     const cartDetails = await cartDetail.find({ cart_id: cart._id });
     return res.status(201).json({
       message: "Lấy danh sách sản phẩm",

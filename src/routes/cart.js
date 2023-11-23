@@ -7,7 +7,7 @@ cartRouter.post('/cart/token', tokenUser);
 cartRouter.post('/cart/add/:productDetailId/:user_id', addToCart);
 
 // Lấy thông tin giỏ hàng
-cartRouter.get('/cart/:id', getCart);
+cartRouter.get('/cart/:userID', getCart);
 cartRouter.get('/cart/cart-detail', getCartDetail);
 
 // Hiện thị chi tiết sản phẩm trong giỏ hàng
