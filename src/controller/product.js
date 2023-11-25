@@ -3,7 +3,6 @@ import { productSchema } from '../schemas/product';
 import Product from '../model/product'
 import Brand from '../model/brand'
 import ProductDetail from '../model/productDetail';
-import cli from '@angular/cli';
 
 export const getAllProducts = async (req, res) => {
     try {
