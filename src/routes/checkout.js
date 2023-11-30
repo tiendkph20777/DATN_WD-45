@@ -1,6 +1,6 @@
 import express from "express";
 import { } from "../controller/payment";
-import { createCheckout, getCheckout, getOneCheckout, removeCheckout, updateCheckout } from "../controller/checkout";
+import { createCheckout, getCheckout, getOneCheckout, removeCheckout, removeProductToCheckout, updateCheckout } from "../controller/checkout";
 import { checkPermission } from "../middleware/checkPermission";
 import { increaseProduct, reductionProduct } from "../controller/product";
 const checkoutRouter = express.Router();
@@ -17,8 +17,8 @@ checkoutRouter.get('/reductionProduct/:product_id/:quantityProduct', reductionPr
 // Tăng số lượng sản phẩm
 checkoutRouter.get('/increaseProduct/:product_id/:quantityProduct', increaseProduct);
 
-checkoutRouter.get('/checkout', getCheckout);
 checkoutRouter.get('/checkout/:id', getOneCheckout);
+checkoutRouter.get('/checkout/:cart_id/:productDetail_id', removeProductToCheckout);
 checkoutRouter.put('/checkout/:id/update', updateCheckout);
 checkoutRouter.delete('/checkout/:id', removeCheckout);
 

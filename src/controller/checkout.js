@@ -23,20 +23,31 @@ export const createCheckout = async (req, res) => {
             PaymentAmount,
             noteCancel,
         });
-
         const savedCheckoutItem = await checkoutItem.save();
-
-        if (savedCheckoutItem) {
-            const findCart = await Cart.findOne({ user_id });
-            const idCartDetail = findCart._id;
-            await CartDetail.deleteMany({ cart_id: idCartDetail });
-            const reponseCart = CartDetail.findById(user_id)
-            res.status(201).json(savedCheckoutItem, reponseCart);
-        }
+        res.status(201).json(savedCheckoutItem);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }
+
+export const removeProductToCheckout = async (req, res) => {
+    try {
+        const { cart_id, productDetail_id } = req.params;
+        // Tìm chi tiết giỏ hàng có cart_id tương ứng
+        const cartDetail = await CartDetail.findOne({ cart_id: cart_id, productDetailId: productDetail_id });
+        if (!cartDetail) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm trong giỏ hàng." });
+        }
+        // Xóa sản phẩm từ chi tiết giỏ hàng
+        const removeProducToCheckout = await CartDetail.deleteOne({ cart_id: cart_id, productDetailId: productDetail_id });
+        res.status(201).json({ message: "Đã xóa sản phẩm khỏi giỏ hàng.", removeProducToCheckout });
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+}
+
 
 
 export const getCheckout = async (req, res) => {
