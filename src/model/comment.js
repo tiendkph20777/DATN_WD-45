@@ -9,6 +9,7 @@ const commentSchema = new mongoose.Schema({
     rate: {
         type: Number,
     },
+    images: { type: Array },
     id_user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

@@ -38,31 +38,15 @@ export const getComment = async (req, res) => {
 export const createComment = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    // if (authHeader) {
-    //   const token = authHeader.split(" ")[1];
-
-    //   jwt.verify(token, "123456", (err, user) => {
-    //     if (err) {
-    //       return res.sendStatus(403);
-    //     }
-
-    //     req.user = user;
-    //     // next();
-    //     console.log(req.user);
-    //   });
-    // } else {
-    //   res.sendStatus(401);
-    // }
-
     if (authHeader) {
       const token = authHeader.split(" ")[1];
 
       try {
-        const { content, rate, id_product } = req.body;
+        const { content, rate, id_product, images } = req.body;
         const user = await verifyToken(token, "123456");
         const id_user = user._id;
         const { error } = commentSchema.validate(
-          { content, rate, id_product, id_user },
+          { content, rate, id_product, id_user, images },
           {
             abortEarly: true,
           }
@@ -73,7 +57,7 @@ export const createComment = async (req, res) => {
           });
         }
 
-        const comment = await Comment.create({ content, rate, id_product, id_user });
+        const comment = await Comment.create({ content, rate, id_product, id_user, images });
         return res.status(201).json(comment);
 
         // req.user = user;
@@ -123,15 +107,7 @@ export const removeComment = async (req, res) => {
 
 export const updateComment = async (req, res) => {
   try {
-    // const { content,rate } = req.body;
-    // const existingComment = await Comment.findOne({
-    //   _id: { $ne: req.params.id },
-    // });
-    // if (existingComment) {
-    //   return res.status(400).json({
-    //     message: "Danh mục đã được tạo trước đó",
-    //   });
-    // }
+
     const comment = await Comment.findByIdAndUpdate(
       { _id: req.params.id },
       req.body,
