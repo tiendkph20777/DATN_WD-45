@@ -50,6 +50,9 @@ const checkoutSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment",
     },
+    payment: {
+        type: String,
+    },
     PaymentAmount: {
         type: Number,
     },
