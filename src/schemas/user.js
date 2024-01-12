@@ -18,10 +18,10 @@ export const userSchema = joi.object({
         "any.required": "Email là bắt buộc",
     }),
     password: joi.string().required().min(6).max(20).messages({
-        "string.min": "Password phải có ít nhất {#limit} ký tự",
-        "string.max": "Password nhiều nhất {#limit} ký tự",
-        "string.empty": "Password không được để trống",
-        "any.required": "Password là bắt buộc",
+        "string.min": "Mật khẩu phải có ít nhất {#limit} ký tự",
+        "string.max": "Mật khẩu nhiều nhất {#limit} ký tự",
+        "string.empty": "Mật khẩu không được để trống",
+        "any.required": "Mật khẩu là bắt buộc",
     }),
     confirmPassword: joi.string().valid(joi.ref("password")).required().messages({
         "any.only": "ConfirPassword là bắt buộc",
@@ -38,9 +38,9 @@ export const signinSchema = joi.object({
         "any.required": "email là bắt buộc"
     }),
     password: joi.string().required().min(6).max(20).messages({
-        "string.empty": "password không được để trống",
-        "string.empty": "passwork là bắt buộc",
-        "string.min": "passwork phải ít nhất {#limit} ký tự",
-        "string.max": "passwork nhiều nhất {#limit} ký tự",
+        "string.empty": "Mật khẩu không được để trống",
+        "string.empty": "Mật khẩu là bắt buộc",
+        "string.min": "Mật khẩu phải ít nhất {#limit} ký tự",
+        "string.max": "Mật khẩu nhiều nhất {#limit} ký tự",
     })
 })
