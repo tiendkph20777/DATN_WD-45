@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
     role_id: {
       type: mongoose.Types.ObjectId,
       ref: "Role"
-    },
+    }
   },
   {
     timestamps: true,
