@@ -16,15 +16,15 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Brand",
     },
-    status:{
-        type:Boolean,
-        default: false
+    status: {
+        type: Boolean,
+        default: true
 
     },
     content: String,
     description: String,
     rate: Number,
-    
+
 },
     {
         timestamps: true,
